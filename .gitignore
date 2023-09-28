@@ -1,0 +1,6 @@
+.idea/
+out/
+target/
+shade/
+
+*.iml

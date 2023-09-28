@@ -1,0 +1,32 @@
+*{
+    -fx-font-family: Ubuntu Serif;
+}
+
+.label{
+    -fx-font-size: 14px;
+}
+
+.title{
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+}
+
+.pane{
+    -fx-background-color: white;
+}
+
+.jfx-button{
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-background-color: #00b2ff;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+
+
+.small{
+    -fx-font-size: 10px;
+}
+
+

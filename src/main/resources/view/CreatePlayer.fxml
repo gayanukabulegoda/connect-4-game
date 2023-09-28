@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.CubicCurve?>
+
+<AnchorPane onMouseExited="#rootOnMouseExited" onMouseMoved="#rootOnMouseMove" prefHeight="430.0" prefWidth="600.0" styleClass="pane" stylesheets="@../style/Style.css,@../style/CreatePlayer.css," xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep.controller.CreatePlayerController">
+   <children>
+      <CubicCurve fx:id="curve" controlX1="354.8468017578125" controlX2="451.8468017578125" controlY1="-112.0" controlY2="-36.0" endX="647.3131103515625" endY="142.0" fill="DODGERBLUE" layoutX="-60.46630668640137" layoutY="90.0" opacity="0.08" startX="63.81310272216797" startY="70.0" stroke="BLACK" strokeWidth="0.0" AnchorPane.leftAnchor="2.8467960357666016" AnchorPane.rightAnchor="12.653203964233398" />
+      <Label layoutX="185.0" layoutY="104.0" styleClass="title" text="Connect 4 Game" />
+      <Label layoutX="50.0" layoutY="145.0" text="Welcome to Connect 4 Game, please enter your name to create a new player" />
+      <JFXTextField fx:id="txtName" labelFloat="true" layoutX="50.0" layoutY="218.0" mouseTransparent="true" prefHeight="23.0" prefWidth="500.0" promptText="Enter your name" />
+      <JFXButton fx:id="btnPlay" defaultButton="true" layoutX="254.0" layoutY="278.0" onAction="#btnPlayOnAction" text="PLAY !" />
+      <Label layoutX="99.0" layoutY="390.0" styleClass="small" text="Copyright © 2022 DEP. All Rights Reserved. This project is licensed under the MIT license." />
+      <ImageView fitHeight="62.0" fitWidth="62.0" layoutX="270.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asset/connect-four.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

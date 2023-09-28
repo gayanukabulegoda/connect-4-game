@@ -1,0 +1,88 @@
+.col{
+    -fx-border-width: 1 1 2 1;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-style:  dashed solid solid solid;
+}
+
+.col-first{
+    -fx-border-width: 1 1 2 2;
+}
+
+.col-last{
+    -fx-border-width: 1 2 2 1;
+}
+
+.col-ai{
+    -fx-background-color: #e0ffcc;
+    -fx-border-width: 2;
+    -fx-border-color: #a6a6a6;
+    -fx-border-radius: 5px;
+}
+
+.col-filled:hover{
+    -fx-background-color: #ffbfbf !important;
+    -fx-border-color: #ff4f4f !important;
+}
+
+.col-human:hover{
+    -fx-cursor: hand;
+    -fx-background-color: #d7f7ff;
+    -fx-border-width: 2;
+    -fx-border-color: #a6a6a6;
+    -fx-border-radius: 5px;
+}
+
+.four{
+    -fx-font-size: 42px;
+}
+
+#lblStatus{
+    -fx-font-size: 24px;
+    -fx-background-color: #f1f1f1;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+}
+
+.circle-ai{
+    -fx-stroke-width: 0;
+    -fx-fill: #00f504;
+}
+
+.circle-human{
+    -fx-stroke-width: 0;
+    -fx-fill: #1e90ff;
+}
+
+.human{
+    -fx-text-fill: #1e90ff;
+    -fx-background-color: #eafffc !important;
+}
+
+.ai{
+    -fx-text-fill: #00f531;
+    -fx-background-color: #eaffe4 !important;
+}
+
+.final{
+    -fx-text-fill: #ff0089;
+}
+
+.winning-rect{
+    -fx-fill: rgb(255, 184, 0);
+    -fx-opacity: 0.5;
+    -fx-stroke-width: 1;
+    -fx-stroke:  #ff0089;
+    -fx-arc-height: 10px;
+    -fx-arc-width: 10px;
+}
+
+#pneOver{
+    -fx-background-color: rgba(100, 98, 98, 0.43);
+    -fx-background-radius: 10px;
+}
+
+.jfx-button:hover{
+    -fx-text-fill: black !important;
+}
