@@ -6,6 +6,8 @@ public class BoardImpl implements Board {
     private Piece[][] pieces = new Piece[6][5];
     private BoardUI boardUI;
     public BoardImpl(BoardController boardController) {
+        //Object created using BoardUI interface (BoardController) assigned to its Parent class Reference BoardUI
+        boardUI = boardController;
         //emptying the pieces of the board
         for (int i=0;i < 6;i++) {
             for (int j=0;j < 5;j++){
@@ -14,9 +16,9 @@ public class BoardImpl implements Board {
         }
     }
 
-    public BoardImpl(BoardUI boardUI) {
-        this.boardUI = boardUI;
-    }
+//    public BoardImpl(BoardUI boardUI) {
+//        this.boardUI = boardUI;
+//    }
 
     @Override
     public BoardUI getBoardUI() {
