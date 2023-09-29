@@ -8,5 +8,6 @@ public interface Board {
     boolean isLegalMove(int col);
     boolean exitLegalMoves();
     void updateMove(int col, Piece move);
+    void updateMove(int col, int row, Piece move);
     Winner findWinner();
 }

@@ -71,6 +71,13 @@ public class BoardImpl implements Board {
     }
 
     @Override
+    public void updateMove(int col, int row, Piece move) {
+        if (pieces[col][row] == Piece.EMPTY) {
+            pieces[col][row] = move;
+        }
+    }
+
+    @Override
     public Winner findWinner() {
         //decides the winner via vertical & horizontal checking
         int rows = pieces.length;
