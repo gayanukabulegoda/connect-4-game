@@ -7,8 +7,8 @@ public class AiPlayer extends Player {
     }
 
     @Override
-    public void movePiece(int col) {
-        int colRandom;
+    public void movePiece(int colRandom) {
+
         do {
             // *6 bcz Math.random() generates random decimal no.s between 0.0 and 1.0
             colRandom =  (int) (Math.random() * 6);
@@ -21,7 +21,7 @@ public class AiPlayer extends Player {
 
             if (board.findWinner().getWinningPiece() == Piece.EMPTY) {
 
-                if (!board.exitLegalMoves()) {
+                if (!board.existLegalMoves()) {
                     board.getBoardUI().notifyWinner(board.findWinner());
                 }
             }

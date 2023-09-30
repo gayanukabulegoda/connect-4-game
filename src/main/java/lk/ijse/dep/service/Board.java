@@ -6,7 +6,7 @@ public interface Board {
     BoardUI getBoardUI();
     int finalNextAvailableSpot(int col);
     boolean isLegalMove(int col);
-    boolean exitLegalMoves();
+    boolean existLegalMoves();
     void updateMove(int col, Piece move);
     void updateMove(int col, int row, Piece move);
     Winner findWinner();
