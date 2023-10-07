@@ -2,8 +2,8 @@ package lk.ijse.dep.service;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(Board newBoard) {
-        board = newBoard;
+    public HumanPlayer(Board board) {
+        super(board);
     }
 
     @Override

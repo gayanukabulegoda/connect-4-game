@@ -3,11 +3,12 @@ package lk.ijse.dep.service;
 import lk.ijse.dep.controller.BoardController;
 
 public class BoardImpl implements Board {
-    private Piece[][] pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
+    private Piece[][] pieces;
     private BoardUI boardUI;
-    public BoardImpl(BoardController boardController) {
-        //Object created using BoardUI interface (BoardController) assigned to its Parent class Reference BoardUI
-        boardUI = boardController;
+    public BoardImpl(BoardUI boardUI) {
+        this.boardUI = boardUI;
+        pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
+
         //emptying the pieces of the board
         for (int i = 0;i < NUM_OF_COLS;i++) {
             for (int j = 0;j < NUM_OF_ROWS;j++){
@@ -16,44 +17,46 @@ public class BoardImpl implements Board {
         }
     }
 
-    public BoardImpl(BoardUI boardUI) {
-        this.boardUI = boardUI;
-    }
-
     @Override
     public BoardUI getBoardUI() {
-        return boardUI;
+        return this.boardUI;
     }
 
     @Override
-    public int finalNextAvailableSpot(int col) {
-        //check whether each piece is Empty and return row's value
+    public int findNextAvailableSpot(int col) {
+        //check whether any piece is Empty and return row's value
         for (int i = 0;i < NUM_OF_ROWS;i++){
             if ( pieces[col][i] == Piece.EMPTY ){
                 return i;
             }
         }
-        //if no any pieces empty return -1
+        //if no any Empty piece return -1
         return -1;
     }
 
     @Override
     public boolean isLegalMove(int col) {
-        //decide whether there is an empty piece
-        int row = finalNextAvailableSpot(col);
+        //decide whether there is an empty piece within given column
+        /*int row = findNextAvailableSpot(col);
         if (row > -1) return true;
-
-        return false;
+        return false;*/
+        return this.findNextAvailableSpot(col) > -1;
     }
 
     @Override
     public boolean existLegalMoves() {
         //checks there's any empty piece available in the whole board
-        for (int i = 0;i < NUM_OF_COLS;i++) {
+        /*for (int i = 0;i < NUM_OF_COLS;i++) {
             for (int j = 0;j < NUM_OF_ROWS;j++){
                 if (pieces[i][j] == Piece.EMPTY) {
                     return true;
                 }
+            }
+        }
+        return false;*/
+        for (int i = 0; i < NUM_OF_COLS; i++) {
+            if (this.isLegalMove(i)) {
+                return true;
             }
         }
         return false;
@@ -62,26 +65,26 @@ public class BoardImpl implements Board {
     @Override
     public void updateMove(int col, Piece move) {
         //assign BLUE/GREEN (move) if the given column's piece EMPTY
-        for (int i = 0;i < NUM_OF_ROWS;i++) {
+        /*for (int i = 0;i < NUM_OF_ROWS;i++) {
             if (pieces[col][i] == Piece.EMPTY) {
                 pieces[col][i] = move;
                 break;
             }
-        }
+        }*/
+        pieces[col][findNextAvailableSpot(col)] = move;
     }
 
     @Override
     public void updateMove(int col, int row, Piece move) {
-        if (pieces[col][row] == Piece.EMPTY) {
+        /*if (pieces[col][row] == Piece.EMPTY) {
             pieces[col][row] = move;
-        }
+        }*/
+        pieces[col][row] = move;
     }
 
     @Override
     public Winner findWinner() {
         //decides the winner via vertical & horizontal checking
-//        int rows = pieces.length;
-//        int cols = pieces[0].length;
 
         for (int col = 0; col < NUM_OF_COLS; col++) {
             for (int row = 0; row < NUM_OF_ROWS; row++) {
@@ -108,7 +111,7 @@ public class BoardImpl implements Board {
             }
         }
         // Match tied (No winner yet)
-        return new Winner(Piece.EMPTY, -1, -1, -1, -1);
+        return new Winner(Piece.EMPTY);
     }
 }
 
