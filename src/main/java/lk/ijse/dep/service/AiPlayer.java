@@ -1,9 +1,6 @@
 package lk.ijse.dep.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class AiPlayer extends Player {
 
@@ -14,33 +11,31 @@ public class AiPlayer extends Player {
     @Override
     public void movePiece(int col) {
 
-//        do {
-//            // *6 bcz Math.random() generates random decimal no.s between 0.0 and 1.0
-//            col =  (int) (Math.random() * 6);
+        /*do {
+            // *6 bcz Math.random() generates random decimal no.s between 0.0 and 1.0
+            col =  (int) (Math.random() * 6);
 
-//        } while (!(col > -1 && col < 6) || !(board.isLegalMove(col)));
+        } while (!(col > -1 && col < 6) || !(board.isLegalMove(col)));*/
 
-        /////////////////////MCTS ALGORITHM/////////////////////
+        ////////////-> MCTS ALGORITHM <-/////////////
 
         Mcts mcts = new Mcts(board.getBoardImpl());
         col = mcts.startMCTS();
 
-        /////////////////////MCTS ALGORITHM/////////////////////
+        ////////////-> MCTS ALGORITHM <-/////////////
 
         if (board.isLegalMove(col)) {
             board.updateMove(col, Piece.GREEN);
             board.getBoardUI().update(col, false);
 
-            if (board.findWinner().getWinningPiece() == Piece.EMPTY) {
+            if (board.findWinner().getWinningPiece() != Piece.EMPTY || !board.existLegalMoves()) {
 
-                if (!board.existLegalMoves()) {
                     board.getBoardUI().notifyWinner(board.findWinner());
-                }
             }
-            else board.getBoardUI().notifyWinner(board.findWinner());
         }
     }
-    /// -> MCTS Algorithm <- ///
+
+    ////////////-> MCTS ALGORITHM <-/////////////
 
     static class Mcts {
         //inorder to catch boardimpl's board (2D array)
@@ -154,7 +149,8 @@ public class AiPlayer extends Player {
             }
             //System.out.println(node.children.size());
 
-            int random = Board.RANDOM_GENERATOR.nextInt(node.children.size());
+            //generates a Random int number (within children array length) in-order-to return a random Node
+            int random = new Random().nextInt(node.children.size());
 
             return node.children.get(random);
         }

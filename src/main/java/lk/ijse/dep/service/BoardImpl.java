@@ -1,9 +1,8 @@
 package lk.ijse.dep.service;
 
-import lk.ijse.dep.controller.BoardController;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BoardImpl implements Board {
     private Piece[][] pieces;
@@ -42,23 +41,13 @@ public class BoardImpl implements Board {
     @Override
     public boolean isLegalMove(int col) {
         //decide whether there is an empty piece within given column
-        /*int row = findNextAvailableSpot(col);
-        if (row > -1) return true;
-        return false;*/
         return this.findNextAvailableSpot(col) > -1;
     }
 
     @Override
     public boolean existLegalMoves() {
         //checks there's any empty piece available in the whole board
-        /*for (int i = 0;i < NUM_OF_COLS;i++) {
-            for (int j = 0;j < NUM_OF_ROWS;j++){
-                if (pieces[i][j] == Piece.EMPTY) {
-                    return true;
-                }
-            }
-        }
-        return false;*/
+
         for (int i = 0; i < NUM_OF_COLS; i++) {
             if (this.isLegalMove(i)) {
                 return true;
@@ -73,20 +62,12 @@ public class BoardImpl implements Board {
         this.cols=col;
         this.piece=move;
 
-//        for (int i = 0;i < NUM_OF_ROWS;i++) {
-//            if (pieces[col][i] == Piece.EMPTY) {
-//                pieces[col][i] = move;
-//                break;
-//            }
-//        }
         pieces[col][findNextAvailableSpot(col)] = move;
     }
 
     @Override
     public void updateMove(int col, int row, Piece move) {
-        /*if (pieces[col][row] == Piece.EMPTY) {
-            pieces[col][row] = move;
-        }*/
+
         pieces[col][row] = move;
     }
 
@@ -122,7 +103,7 @@ public class BoardImpl implements Board {
         return new Winner(Piece.EMPTY);
     }
 
-    /////////// -> MCTS Algorithm <- /////////////
+    ////////////-> MCTS ALGORITHM <-/////////////
 
     public BoardImpl(Piece[][] pieces, BoardUI boardUI){
         this.pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
@@ -161,8 +142,9 @@ public class BoardImpl implements Board {
         if (legalMoves.isEmpty()) {
             return null;
         }
+        //generates a Random int number (within legalMoves array length) in-order-to get a random move
         final int random;
-        random = RANDOM_GENERATOR.nextInt(legalMoves.size());
+        random = new Random().nextInt(legalMoves.size());
         return legalMoves.get(random);
     }
     //decide whether there's any empty piece or not
