@@ -7,7 +7,7 @@ import java.util.Random;
 public class BoardImpl implements Board {
     private Piece[][] pieces;
     private BoardUI boardUI;
-    public Piece piece = Piece.BLUE;
+    public Piece piece;
     public int cols;
     public BoardImpl(BoardUI boardUI) {
         this.boardUI = boardUI;
@@ -116,11 +116,6 @@ public class BoardImpl implements Board {
         }
         this.boardUI = boardUI;
     }
-    //return the boardimpl object
-    @Override
-    public BoardImpl getBoardImpl() {
-        return this;
-    }
 
     //checks the all next legal moves while expanding the tree (creating child nodes)
     public List<BoardImpl> getAllLegalNextMoves() {
@@ -136,6 +131,7 @@ public class BoardImpl implements Board {
         }
         return nextMoves;
     }
+
     //randomly select child node just after expanding the parent node
     public BoardImpl getRandomLegalNextMove(){
         final  List<BoardImpl> legalMoves = getAllLegalNextMoves();
@@ -147,6 +143,7 @@ public class BoardImpl implements Board {
         random = new Random().nextInt(legalMoves.size());
         return legalMoves.get(random);
     }
+
     //decide whether there's any empty piece or not
     public boolean getStatus(){
         if (!existLegalMoves()) {

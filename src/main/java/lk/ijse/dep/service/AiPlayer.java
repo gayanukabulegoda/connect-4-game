@@ -19,7 +19,8 @@ public class AiPlayer extends Player {
 
         ////////////-> MCTS ALGORITHM <-/////////////
 
-        Mcts mcts = new Mcts(board.getBoardImpl());
+                             //return the boardImpl object
+        Mcts mcts = new Mcts((BoardImpl) board);
         col = mcts.startMCTS();
 
         ////////////-> MCTS ALGORITHM <-/////////////
@@ -51,7 +52,7 @@ public class AiPlayer extends Player {
 
         //initialize MCTS
         public int startMCTS(){
-            System.out.println("MCTS working.");
+            System.out.println("MCTS Started...");
             int count=0;
 
             //creates new node
@@ -81,7 +82,7 @@ public class AiPlayer extends Player {
 
             Node best= tree.getChildWithMaxScore();
 
-            System.out.println("Best move scored " + best.score + " and was visited " + best.visits + " times");
+            System.out.println("Best move scored " + best.score + " and was visited " + best.visits + " times\nMCTS Ended...");
 
             return best.board.cols;
         }
@@ -119,23 +120,12 @@ public class AiPlayer extends Player {
                 child.parent=node;
                 node.addChild(child);
                 node=child;
-
-                //   System.out.println(node.board.findWinner().getWinningPiece());
-
-//            if (node.board== null) {
-//                System.out.println("yy");
-//                // Handle the null case, such as returning a default value or throwing an exception.
-//                // For example, you can throw an IllegalArgumentException:
-//                throw new IllegalArgumentException("promisingNode cannot be null");
-//            }
-
             }
             return node.board.findWinner().getWinningPiece();
         }
         //Expands the tree via creating child nodes by dividing the parent node
         private Node expandNodeAndReturnRandom(Node node) {
 
-            Node result=node;
             BoardImpl board= node.board;
             List<BoardImpl> legalMoves= board.getAllLegalNextMoves();
 
@@ -144,10 +134,7 @@ public class AiPlayer extends Player {
                 Node child =new Node(move);
                 child.parent=node;
                 node.addChild(child);
-
-                result=child;
             }
-            //System.out.println(node.children.size());
 
             //generates a Random int number (within children array length) in-order-to return a random Node
             int random = new Random().nextInt(node.children.size());
@@ -164,7 +151,7 @@ public class AiPlayer extends Player {
         }
     }
     static class Node {
-        //catch the boardimpl's current board (2D array)
+        //catch the boardImpl's current board (2D array)
         public BoardImpl board;
         //counts the no.of visits via backpropagation phase
         public int visits;
@@ -197,7 +184,7 @@ public class AiPlayer extends Player {
     static class UCT {
         //UCT Value calculate via selection phase
         public static double uctValue(
-                int totalVisit, double nodeWinScore, int nodeVisit) {
+            int totalVisit, double nodeWinScore, int nodeVisit) {
             if (nodeVisit == 0) {
                 return Integer.MAX_VALUE;
             }
