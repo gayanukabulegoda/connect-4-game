@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public class BoardImpl implements Board {
-    private Piece[][] pieces;
-    private BoardUI boardUI;
+    private final Piece[][] pieces;
+    private final BoardUI boardUI;
     public Piece piece;
     public int cols;
     public BoardImpl(BoardUI boardUI) {
@@ -103,7 +103,7 @@ public class BoardImpl implements Board {
         return new Winner(Piece.EMPTY);
     }
 
-    ////////////-> MCTS ALGORITHM <-/////////////
+    ////////////-> M C T S ALGORITHM <-/////////////
 
     public BoardImpl(Piece[][] pieces, BoardUI boardUI){
         this.pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
@@ -146,14 +146,10 @@ public class BoardImpl implements Board {
 
     //decide whether there's any empty piece or not
     public boolean getStatus(){
-        if (!existLegalMoves()) {
-            return false;
-        }
+        if (!existLegalMoves()) return false;
+
         Winner winner = findWinner();
-        if (winner.getWinningPiece() != Piece.EMPTY) {
-            return false;
-        }
-        return true;
+        return winner.getWinningPiece() == Piece.EMPTY;
     }
 }
 

@@ -17,16 +17,17 @@ public class AiPlayer extends Player {
 
         } while (!(col > -1 && col < 6) || !(board.isLegalMove(col)));*/
 
-        ////////////-> MCTS ALGORITHM <-/////////////
+        ////////////-> M C T S ALGORITHM <-/////////////
 
                              //return the boardImpl object
         Mcts mcts = new Mcts((BoardImpl) board);
         col = mcts.startMCTS();
 
-        ////////////-> MCTS ALGORITHM <-/////////////
+        ////////////-> M C T S ALGORITHM <-/////////////
 
         if (board.isLegalMove(col)) {
-            board.updateMove(col, Piece.GREEN);
+            int row = board.findNextAvailableSpot(col);
+            board.updateMove(col, row, Piece.GREEN);
             board.getBoardUI().update(col, false);
 
             if (board.findWinner().getWinningPiece() != Piece.EMPTY || !board.existLegalMoves()) {
@@ -36,16 +37,13 @@ public class AiPlayer extends Player {
         }
     }
 
-    ////////////-> MCTS ALGORITHM <-/////////////
+    ////////////-> M C T S ALGORITHM <-/////////////
 
     static class Mcts {
-        //inorder to catch boardimpl's board (2D array)
+        //inorder to catch boardImpl 's board (2D array)
         private final BoardImpl board;
-        //AiPlayer's Piece
-        private final Piece AiID=Piece.GREEN;
-        //HumanPlayer's Piece
-        private final Piece HumanID=Piece.BLUE;
-        //assign boardimpl's board
+
+        //assign boardImpl 's board
         public Mcts(BoardImpl board) {
             this.board = board;
         }
@@ -55,15 +53,14 @@ public class AiPlayer extends Player {
             System.out.println("MCTS Started...");
             int count=0;
 
-            //creates new node
+            //Creates New node object
             Node tree= new Node(board);
 
-            //Recurring Amount that MCTS checkings need to be carry-on
+            //Recurring Amount that MCTS checking(s) need to be carry-on
             while (count<4000){
                 count++;
 
-                //System.out.println(count);
-                //Select Node
+                //Selected Node
                 Node promisingNode = selectPromisingNode(tree);
 
                 //Expand Node
@@ -76,7 +73,7 @@ public class AiPlayer extends Player {
                 //Simulate
                 Piece resultPiece=simulateLightPlayout(selected);
 
-                //BackPropagate
+                //BackPropagation
                 backPropagation(resultPiece,selected);
             }
 
@@ -129,10 +126,9 @@ public class AiPlayer extends Player {
             BoardImpl board= node.board;
             List<BoardImpl> legalMoves= board.getAllLegalNextMoves();
 
-            for (int i = 0; i < legalMoves.size(); i++) {
-                BoardImpl move=legalMoves.get(i);
-                Node child =new Node(move);
-                child.parent=node;
+            for (BoardImpl move : legalMoves) {
+                Node child = new Node(move);
+                child.parent = node;
                 node.addChild(child);
             }
 
@@ -165,7 +161,7 @@ public class AiPlayer extends Player {
         public Node(BoardImpl board) {
             this.board = board;
         }
-        //return the highest valued child via backpropagation (if ai won +1 ; fail -1)
+        //return the highest valued child via backpropagation (if Ai won +1 ; fail -1)
         Node getChildWithMaxScore() {
             Node result = children.get(0);
             for (int i = 1; i < children.size(); i++) {
@@ -188,7 +184,7 @@ public class AiPlayer extends Player {
             if (nodeVisit == 0) {
                 return Integer.MAX_VALUE;
             }
-            return ((double) nodeWinScore / (double) nodeVisit)
+            return (nodeWinScore / (double) nodeVisit)
                     + 1.41 * Math.sqrt(Math.log(totalVisit) / (double) nodeVisit);
         }
         //Find the best node with highest UCT value
