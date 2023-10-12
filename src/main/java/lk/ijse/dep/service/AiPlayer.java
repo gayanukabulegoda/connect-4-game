@@ -190,10 +190,9 @@ public class AiPlayer extends Player {
         //Find the best node with highest UCT value
         public static Node findBestNodeWithUCT(Node node) {
             int parentVisit = node.visits;
-            return Collections.max(
-                    node.children,
-                    Comparator.comparing(c -> uctValue(parentVisit,
-                            c.score, c.visits)));
+
+            return Collections.max (node.children,
+                    Comparator.comparing(c -> uctValue(parentVisit, c.score, c.visits)));
         }
     }
 }
