@@ -10,6 +10,7 @@ public class HumanPlayer extends Player {
     public void movePiece(int col) {
         if (board.isLegalMove(col)) {
             int row = board.findNextAvailableSpot(col);
+
             board.updateMove(col, row, Piece.BLUE);
             board.getBoardUI().update(col, true);
 
@@ -20,3 +21,8 @@ public class HumanPlayer extends Player {
         }
     }
 }
+
+/*
+ * Implements Player's abstract behaviours
+ * Depicts Human Player's functionality
+ */

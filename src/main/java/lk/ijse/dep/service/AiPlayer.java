@@ -86,12 +86,12 @@ public class AiPlayer extends Player {
         //backpropagation step
         private void backPropagation(Piece resultPiece, Node selected) {
 
-            Node node=selected;
+            Node node = selected;
 
-            while (node!=null){
+            while (node != null){
                 node.visits++;
 
-                if (node.board.piece==resultPiece){
+                if (node.board.piece == resultPiece){
                     node.score++;
                 }
                 node = node.parent;
@@ -139,9 +139,9 @@ public class AiPlayer extends Player {
         }
         //select & return the best node with highest UCT value after backpropagation
         private Node selectPromisingNode(Node tree) {
-            Node node=tree;
-            while (node.children.size()!=0){
-                node=UCT.findBestNodeWithUCT(node);
+            Node node = tree;
+            while (node.children.size() != 0){
+                node = UCT.findBestNodeWithUCT(node);
             }
             return node;
         }

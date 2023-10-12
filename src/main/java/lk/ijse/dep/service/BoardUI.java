@@ -4,3 +4,7 @@ public interface BoardUI {
     void update(int col, boolean isHuman);
     void notifyWinner(Winner winner);
 }
+
+/*
+ * Implemented on BoardController class
+ */

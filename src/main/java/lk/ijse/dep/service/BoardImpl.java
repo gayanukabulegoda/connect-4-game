@@ -7,13 +7,16 @@ import java.util.Random;
 public class BoardImpl implements Board {
     private final Piece[][] pieces;
     private final BoardUI boardUI;
+
+    //Variables Created For MCTS Alogorithm's function
     public Piece piece;
     public int cols;
+
     public BoardImpl(BoardUI boardUI) {
         this.boardUI = boardUI;
         pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
 
-        //emptying the pieces of the board
+        //Emptying the pieces of the board
         for (int i = 0;i < NUM_OF_COLS;i++) {
             for (int j = 0;j < NUM_OF_ROWS;j++){
                 pieces[i][j] = Piece.EMPTY;

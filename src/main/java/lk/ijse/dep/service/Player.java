@@ -9,3 +9,9 @@ public abstract class Player {
 
     public abstract void movePiece(int col);
 }
+
+/*
+ * Player is considered to be an abstract class
+ * Because class's behavoiurs are implemented on another classes
+ * (On AiPLayer and HumanPlayer sub-Classes)
+ */

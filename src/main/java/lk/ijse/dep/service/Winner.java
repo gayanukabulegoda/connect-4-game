@@ -73,3 +73,9 @@ public class Winner {
                 '}';
     }
 }
+
+/*
+ * This is considered to be a Tightly Encapsulated Class
+ * Use to notify/identify the Winner status
+ * (With relevant HORIZONTAL or VERTICAL Co-ordinates)
+ */
