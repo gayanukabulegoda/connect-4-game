@@ -130,7 +130,7 @@ public class BoardImpl implements Board {
                 }
             }
         }
-        // Match Tied (No winner yet)
+        //Match Tied (No winner yet)
         return new Winner(Piece.EMPTY);
     }
 
@@ -139,7 +139,7 @@ public class BoardImpl implements Board {
     /**
      * consrtructor for creating new BoardImpl objects via getAllLegalNextMoves method
      * @param pieces - existing (pieces) 2D array
-     * @param boardUI - catches BoardUI interface arributes & behaviours
+     * @param boardUI - catches BoardUI interface's arributes & behaviours
      */
     public BoardImpl(Piece[][] pieces, BoardUI boardUI){
         //New 2D array (new board) created
@@ -154,11 +154,24 @@ public class BoardImpl implements Board {
         this.boardUI = boardUI;
     }
 
-    //checks the all next legal moves while expanding the tree (creating child nodes)
+    /**
+     * generates and returns a list of all possible next moves that can made in the game
+     * (while expanding the tree / creating child nodes)
+     * @return all possible next moves as an array list (containing BoardImpl objects)
+     * each next move is represented as a new BoardImpl object
+     */
     public List<BoardImpl> getAllLegalNextMoves() {
         Piece nextPiece = piece == Piece.BLUE? Piece.GREEN : Piece.BLUE;
 
         List<BoardImpl> nextMoves = new ArrayList<>();
+
+        /*
+         * iterates through columns
+         * checks available spots (EMPTY rows)
+         * creates a copy of current board
+         * simulates placing a piece in each available spot
+         * (in-order to create the list of next possible game states)
+         */
         for (int col = 0; col < NUM_OF_COLS; col++) {
             if (findNextAvailableSpot(col) > -1) {
                 BoardImpl legalMove = new BoardImpl(this.pieces,this.boardUI);
@@ -169,7 +182,14 @@ public class BoardImpl implements Board {
         return nextMoves;
     }
 
-    //randomly select child node just after expanding the parent node
+    /**
+     * retrieves all legal next moves.
+     * if any legal moves available, it randomly selects one of them
+     * and returns it as a BoardImpl object.
+     * if there are no legal moves, it returns null;
+     * to indicate that there are no moves to make.
+     * (randomly selects child node just after expanding parent node).
+     */
     public BoardImpl getRandomLegalNextMove(){
         final  List<BoardImpl> legalMoves = getAllLegalNextMoves();
         if (legalMoves.isEmpty()) {
@@ -181,10 +201,24 @@ public class BoardImpl implements Board {
         return legalMoves.get(random);
     }
 
+    /**
+     * checks the game's status
+     * by examining the availability of legal moves
+     * and, determining whether there's a winner
+     */
     //decide whether there's any empty piece or not
     public boolean getStatus(){
-        if (!existLegalMoves()) return false;
+        if (!existLegalMoves()) {
+            //means game is over
+            return false;
+        }
 
+        /*
+         * if there are legal moves,
+         * calls findWinner() to check if there is a winner.
+         * winning piece = EMPTY; depicts game is still ongoing (true)
+         * winning piece != EMPTY; depicts a player has won the game (false)
+         */
         Winner winner = findWinner();
         return winner.getWinningPiece() == Piece.EMPTY;
     }
