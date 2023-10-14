@@ -157,9 +157,22 @@ public class AiPlayer extends Player {
                 //tracks how many times a particular node has visited
                 node.visits++;
 
+                /*
+                 * Checks Current game state is equal to
+                 * resultPiece obtained from simulated game outcome.
+                 * If yes; means that the player corresponding to this node's game state
+                 * won in the simulation, so the score(/win count) of the node is incremented by 1.
+                 */
                 if (node.board.piece == resultPiece){
                     node.score++;
                 }
+
+                /*
+                 * After processing a node,
+                 * the code then moves to its parent node in the tree by setting node to node.parent
+                 * making method to traverse up the tree updating parent node statics
+                 * (from leaf node back to the root node).
+                 */
                 node = node.parent;
             }
         }
@@ -175,23 +188,49 @@ public class AiPlayer extends Player {
          */
         private Piece simulateLightPlayout(Node promisingNode) {
 
-            Node node=new Node(promisingNode.board);
-            node.parent=promisingNode.parent;
+            /*
+             * Copies game board from promisong node
+             * and, create a new node from which simulation begins
+             */
+            Node node = new Node(promisingNode.board);
 
-            Winner winner=node.board.findWinner();
+            /*
+             * Parent of the new node is set to parent of promising node;
+             * used to maintain relationship between nodes during simulation.
+             */
+            node.parent = promisingNode.parent;
 
-            if (winner.getWinningPiece()==Piece.BLUE){
-                node.parent.score=Integer.MIN_VALUE;
+            Winner winner = node.board.findWinner();
 
+            if (winner.getWinningPiece() == Piece.BLUE){
+
+                /*
+                 * Score of parent node of the current node
+                 * is set to minimum possible integer value.
+                 * This action will influence the MCTS algorithm to avoid this path.
+                 */
+                node.parent.score = Integer.MIN_VALUE;
+
+                /*
+                 * Returns BLUE winningPiece indicating simulation has ended
+                 * with a win for Human player.
+                 */
                 return node.board.findWinner().getWinningPiece();
             }
 
+            //Simulates the game further(as game hasn't reached terminal state/no winner yet)
             while (node.board.getStatus()){
-                BoardImpl nextMove=node.board.getRandomLegalNextMove();
+
+                //Selects a random legal next move
+                BoardImpl nextMove = node.board.getRandomLegalNextMove();
+
+                //New Node object created from the random move
                 Node child = new Node(nextMove);
-                child.parent=node;
+                child.parent = node;
+
+                //New Node(child node) added to children arrayList
                 node.addChild(child);
-                node=child;
+                node = child;
             }
             return node.board.findWinner().getWinningPiece();
         }
@@ -205,16 +244,23 @@ public class AiPlayer extends Player {
          */
         private Node expandNodeAndReturnRandom(Node node) {
 
-            BoardImpl board= node.board;
-            List<BoardImpl> legalMoves= board.getAllLegalNextMoves();
+            //Retrieves the game board and stores in local variable board
+            BoardImpl board = node.board;
 
+            //Obtain nextMoves arrayList from getAllLegalNextMoves()
+            List<BoardImpl> legalMoves = board.getAllLegalNextMoves();
+
+            /*
+             * Loop creates child nodes for each legal move(BoardImpl object) catch from nextMoves arrayList
+             * and, assigned to children arrayList.
+             */
             for (BoardImpl move : legalMoves) {
                 Node child = new Node(move);
                 child.parent = node;
                 node.addChild(child);
             }
 
-            //generates a Random int number (within children array length) in-order-to return a random Node
+            //Generates a Random integer(within children array range) in-order-to return a random Node
             int random = new Random().nextInt(node.children.size());
 
             return node.children.get(random);
@@ -231,8 +277,18 @@ public class AiPlayer extends Player {
          * (Selection Step)
          */
         private Node selectPromisingNode(Node tree) {
+
+            //Initializes a Node object to start at the root of MCTS tree
             Node node = tree;
+
+            /*
+             * Loop continues as long as there are unexplored moves from this game state.
+             * Continues iteratively moving down the tree from the current node
+             * to the child that is determined to be the most promising based on the UCT vlaues.
+             */
             while (node.children.size() != 0){
+
+                //Select the best child node from the current node using UCT algorithm
                 node = UCT.findBestNodeWithUCT(node);
             }
             return node;
