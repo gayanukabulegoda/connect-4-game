@@ -295,17 +295,19 @@ public class AiPlayer extends Player {
         }
     }
     static class Node {
-        //catch the boardImpl's current board (2D array)
+
+        //Catch the boardImpl's current board (2D array)
         public BoardImpl board;
-        //counts the no.of visits via backpropagation phase
+        //Counts the no.of visits via backpropagation phase
         public int visits;
-        //generate a score (according to best selection path) via backpropagation phase
+        //To asiign generated score (according to best selection path) via backpropagation phase
         public int score;
         //children array holds each & every possible moves as nodes
         List<Node> children= new ArrayList<>();
-        //every child has a parent child's reference (so via backpropagation it selects the highest UCT valued path to drop the ball)
+        //Every child has a parent child's reference (so via selection it selects the highest UCT valued path to drop the ball)
         Node parent=null;
-        //catches boardimpl's board
+
+        //Catches BoardImpl's board
         public Node(BoardImpl board) {
             this.board = board;
         }
@@ -317,9 +319,18 @@ public class AiPlayer extends Player {
          * (return the highest valued child via backpropagation (if Ai won +1 ; fail -1))
          */
         Node getChildWithMaxScore() {
+
+            //Initialize result variable by setting it to first child node in children arrayList
             Node result = children.get(0);
+
+            /*
+             * Loop to compares the scores of all the child nodes and find the one with the highest score.
+             * Loop starts from the second child node (index 1) and iterates through all the child nodes.
+             */
             for (int i = 1; i < children.size(); i++) {
                 if (children.get(i).score > result.score) {
+
+                    //result node is updated to point to the child node with the higher score.
                     result = children.get(i);
                 }
             }
@@ -350,24 +361,42 @@ public class AiPlayer extends Player {
          */
         public static double uctValue(
             int totalVisit, double nodeWinScore, int nodeVisit) {
+
+            /*
+             * If the node has never been visited(nodeVisit is zero);
+             * returns Integer.MAX_VALUE.
+             * Means it ensures that it gets a high UCT value to encourage exploration.
+             */
             if (nodeVisit == 0) {
                 return Integer.MAX_VALUE;
             }
+
+            //1.41 is a constant that balances exploration and exploitation
             return (nodeWinScore / (double) nodeVisit)
                     + 1.41 * Math.sqrt(Math.log(totalVisit) / (double) nodeVisit);
         }
-        //Find the best node with highest UCT value
 
         /**
          * Identify the child node with the highest UCT value among a parent node's children.
          * Child node having highest UCT value;
          * considered the most promising one to explore further.
          * @param node - represents the parent node;
-         * (for which you want to find the best child node based on the UCT value).
+         * (To find the best child node based on the UCT value (highest UCT)).
          */
         public static Node findBestNodeWithUCT(Node node) {
+
+            /*
+             * Calculates the number of times the parent node has been visited
+             * and, stores it in the parentVisit variable.
+             * This value is needed to calculate the UCT value for each child node.
+             */
             int parentVisit = node.visits;
 
+            /*
+             * Comparator is used to compare child nodes based on their UCT values.
+             * "Collections.max" method used to find the child node with the maximum UCT value
+             * among all child nodes, as determined by the Comparator.
+             */
             return Collections.max (node.children,
                     Comparator.comparing(c -> uctValue(parentVisit, c.score, c.visits)));
         }
