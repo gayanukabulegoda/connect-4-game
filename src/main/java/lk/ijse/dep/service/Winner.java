@@ -6,6 +6,7 @@ public class Winner {
     private int row1;
     private int col2;
     private int row2;
+
     public Winner(Piece winningPiece){
         this.winningPiece = winningPiece;
         this.col1 = -1;
@@ -75,7 +76,7 @@ public class Winner {
 }
 
 /*
- * This is considered to be a Tightly Encapsulated Class
+ * This is considered to be a Highly Encapsulated Class
  * Use to notify/identify the Winner status
  * (With relevant HORIZONTAL or VERTICAL Co-ordinates)
  */

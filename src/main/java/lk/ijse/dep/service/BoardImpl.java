@@ -15,7 +15,7 @@ public class BoardImpl implements Board {
     public BoardImpl(BoardUI boardUI) {
         this.boardUI = boardUI;
 
-        //Initialize 2D Array
+        //Initialize pieces 2D Array
         pieces = new Piece[NUM_OF_COLS][NUM_OF_ROWS];
 
         //Emptying all the spots of the board
@@ -79,8 +79,8 @@ public class BoardImpl implements Board {
     @Override
     public void updateMove(int col, Piece move) {
         //Assign specified column, move(piece) for cols,piece variables respectively for alogirthm's fuction
-        this.cols=col;
-        this.piece=move;
+        this.cols = col;
+        this.piece = move;
 
         pieces[col][findNextAvailableSpot(col)] = move;
     }
@@ -204,9 +204,9 @@ public class BoardImpl implements Board {
     /**
      * checks the game's status
      * by examining the availability of legal moves
-     * and, determining whether there's a winner
+     * and, determining whether there's a winner.
+     * (decide whether there's any empty piece or not)
      */
-    //decide whether there's any empty piece or not
     public boolean getStatus(){
         if (!existLegalMoves()) {
             //means game is over

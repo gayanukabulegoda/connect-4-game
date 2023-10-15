@@ -40,7 +40,7 @@ public class AiPlayer extends Player {
 
             if (board.findWinner().getWinningPiece() != Piece.EMPTY || !board.existLegalMoves()) {
 
-                    board.getBoardUI().notifyWinner(board.findWinner());
+                board.getBoardUI().notifyWinner(board.findWinner());
             }
         }
     }
@@ -65,13 +65,13 @@ public class AiPlayer extends Player {
          * and, returns column index of selected move.
          */
         public int startMCTS(){
-            System.out.println("MCTS Algorithm Started...\n");
+            System.out.println("MCTS Algorithm Started >");
 
             //In-order to keep track on number of iterations of MCTS Algorithm
             int count = 0;
 
             //Creates new Node object and, initialize it with the board
-            Node tree= new Node(board);
+            Node tree = new Node(board);
 
             /*
              * Main loop of MCTS Algorithm
@@ -125,7 +125,7 @@ public class AiPlayer extends Player {
              */
             Node best = tree.getChildWithMaxScore();
 
-            System.out.println("Best move Scored " + best.score + " | was Visited " + best.visits + " times\n\nMCTS Algorithm Ended...");
+            System.out.println("Best move Scored " + best.score + " | was Visited " + best.visits + " times\nMCTS Algorithm Ended !!\n");
 
             /*
              * Returns column index of the best move to be made,
@@ -147,7 +147,7 @@ public class AiPlayer extends Player {
             Node node = selected;
 
             /*
-             * Iterates through the noddes in the tree
+             * Iterates through the nodes in the tree
              * starting form selected node
              * and, going up towards root node.
              * Loop continues until it reaches the root node.
